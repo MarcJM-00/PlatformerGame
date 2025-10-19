@@ -35,6 +35,8 @@ private:
 	void ApplyPhysics();
 	void Draw(float dt);
 
+	void Died();
+
 public:
 
 	//Declare player parameters

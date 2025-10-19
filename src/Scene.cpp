@@ -27,12 +27,14 @@ bool Scene::Awake()
 	LOG("Loading Scene");
 	bool ret = true;
 
-	//L04: TODO 3b: Instantiate the player using the entity manager
+	//Con esto iniciamos al jugador
 	player = std::dynamic_pointer_cast<Player>(Engine::GetInstance().entityManager->CreateEntity(EntityType::PLAYER));
 	
-	//L08: TODO 4: Create a new item using the entity manager and set the position to (200, 672) to test
+	//Con esto creamos los objetos que se pueden coger
 	std::shared_ptr<Item> item = std::dynamic_pointer_cast<Item>(Engine::GetInstance().entityManager->CreateEntity(EntityType::ITEM));
+	std::shared_ptr<Item> item2 = std::dynamic_pointer_cast<Item>(Engine::GetInstance().entityManager->CreateEntity(EntityType::ITEM));
 	item->position = Vector2D(200, 672);
+	item2->position = Vector2D(300, 672);
 
 	return ret;
 }
@@ -58,20 +60,17 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
-	//L03 TODO 3: Make the camera movement independent of framerate
-	float camSpeed = 1;
+	if (player != nullptr) // Asegúrate de que el protagonista exista
+	{
+		// Con esto hacemos que la camara siga al jugador
+		Engine::GetInstance().render->camera.x = -(int)player->position.getX() + (Engine::GetInstance().window->window_width/2);
+		Engine::GetInstance().render->camera.y = -(int)player->position.getY() + (Engine::GetInstance().window->window_height/2);
 
-	if(Engine::GetInstance().input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		Engine::GetInstance().render->camera.y -= (int)ceil(camSpeed * dt);
+		// Con esto podemos definir los limites de altura y lados de la camara
+		if (Engine::GetInstance().render->camera.x > 0) Engine::GetInstance().render->camera.x = 0;
+		if (Engine::GetInstance().render->camera.y < 0 || Engine::GetInstance().render->camera.y < Engine::GetInstance().window->window_height/2) Engine::GetInstance().render->camera.y = 0;
 
-	if(Engine::GetInstance().input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		Engine::GetInstance().render->camera.y += (int)ceil(camSpeed * dt);
-
-	if(Engine::GetInstance().input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		Engine::GetInstance().render->camera.x -= (int)ceil(camSpeed * dt);
-	
-	if(Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		Engine::GetInstance().render.get()->camera.x += (int)ceil(camSpeed * dt);
+	}
 
 	return true;
 }

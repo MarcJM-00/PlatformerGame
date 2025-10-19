@@ -61,6 +61,8 @@ bool Player::Update(float dt)
 	ApplyPhysics();
 	Draw(dt);
 
+	Died();
+
 	return true;
 }
 
@@ -113,6 +115,11 @@ void Player::Draw(float dt) {
 	position.setX((float)x);
 	position.setY((float)y);
 	Engine::GetInstance().render->DrawTexture(texture, x - texW / 2, y - texH / 2, &animFrame);
+}
+
+//Aqui añadimos todas las funciones extras del jugador
+void Player::Died() {
+	//if (position.getY() > 670) pbody->SetPosition();
 }
 
 bool Player::CleanUp()
