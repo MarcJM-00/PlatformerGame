@@ -21,7 +21,7 @@ Player::~Player() {
 bool Player::Awake() {
 
 	//L03: TODO 2: Initialize Player parameters
-	position = Vector2D(96, 96);
+	position = Vector2D(96, 600);
 	return true;
 }
 
@@ -119,7 +119,9 @@ void Player::Draw(float dt) {
 
 //Aqui añadimos todas las funciones extras del jugador
 void Player::Died() {
-	//if (position.getY() > 670) pbody->SetPosition();
+	if (position.getY() > 700) {
+		pbody->SetPosition(96, 600);
+	}
 }
 
 bool Player::CleanUp()
