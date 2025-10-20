@@ -124,6 +124,7 @@ void Player::Died() {
 	}
 }
 
+
 bool Player::CleanUp()
 {
 	LOG("Cleanup player");
