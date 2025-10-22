@@ -60,8 +60,10 @@ bool Player::Update(float dt)
 	Jump();
 	ApplyPhysics();
 	Draw(dt);
+	Side();
 
 	Died();
+	Dash();
 
 	return true;
 }
@@ -82,6 +84,15 @@ void Player::Move() {
 	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		velocity.x = speed;
 		anims.SetCurrent("move");
+	}
+}
+
+void Player::Side() {
+	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+		isRight = false;
+	}
+	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+		isRight = true;
 	}
 }
 
@@ -121,6 +132,15 @@ void Player::Draw(float dt) {
 void Player::Died() {
 	if (position.getY() > 700) {
 		pbody->SetPosition(96, 600);
+	}
+}
+
+void Player::Dash() {
+	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN) {
+		int x, y;
+		pbody->GetPosition(x, y);
+		if (isRight) pbody->SetPosition(x + 50, y);
+		if (!isRight) pbody->SetPosition(x - 50, y);
 	}
 }
 

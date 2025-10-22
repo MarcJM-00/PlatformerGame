@@ -34,8 +34,10 @@ private:
 	void Jump();
 	void ApplyPhysics();
 	void Draw(float dt);
+	void Side();
 
 	void Died();
+	void Dash();
 
 public:
 
@@ -52,6 +54,7 @@ public:
 	PhysBody* pbody;
 	float jumpForce = 2.5f; // The force to apply when jumping
 	bool isJumping = false; // Flag to check if the player is currently jumping
+	bool isRight;
 
 private: 
 	b2Vec2 velocity;
