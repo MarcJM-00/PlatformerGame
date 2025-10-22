@@ -14,6 +14,7 @@ Physics::Physics() : Module()
 {
     world = b2_nullWorldId;
     debug = false; // toggle with F9
+    godMode = false;
 }
 
 // Destructor
@@ -188,6 +189,10 @@ bool Physics::PostUpdate()
     if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
         debug = !debug;
 
+    if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
+        godMode = !godMode;
+    }
+
     // Debug draw via Box2D 3.x callbacks
     if (debug)
     {
@@ -217,6 +222,10 @@ bool Physics::PostUpdate()
 
             b2World_Draw(world, &dd);
         }
+    }
+
+    if (godMode) {
+
     }
 
     // Process bodies to delete after the world step

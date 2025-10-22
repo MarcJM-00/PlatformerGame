@@ -117,6 +117,7 @@ private:
 
     // Debug mode
     bool debug;
+    bool godMode;
 
     // Box2D World (id instead of pointer)
     b2WorldId world;
