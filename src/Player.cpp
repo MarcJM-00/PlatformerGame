@@ -55,6 +55,11 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
+
+	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
+		godMode = !godMode;
+	}
+
 	GetPhysicsValues();
 	Move();
 	Jump();
@@ -76,6 +81,34 @@ void Player::GetPhysicsValues() {
 
 void Player::Move() {
 	
+	//Fly con el GodMode activo
+	if (godMode) {
+		velocity = { 0, 0 }; // Reset physics velocity
+
+		if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+			int x, y;
+			pbody->GetPosition(x, y);
+			pbody->SetPosition(x - (int)speed, y);
+		}
+		if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+			int x, y;
+			pbody->GetPosition(x, y);
+			pbody->SetPosition(x + (int)speed, y);
+		}
+		if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+			int x, y;
+			pbody->GetPosition(x, y);
+			pbody->SetPosition(x, y - (int)speed);
+		}
+		if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
+			int x, y;
+			pbody->GetPosition(x, y);
+			pbody->SetPosition(x, y + (int)speed);
+		}
+		return;
+	}
+
+
 	// Move left/right
 	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		velocity.x = -speed;

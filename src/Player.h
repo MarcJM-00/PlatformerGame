@@ -55,6 +55,9 @@ public:
 	float jumpForce = 2.5f; // The force to apply when jumping
 	bool isJumping = false; // Flag to check if the player is currently jumping
 	bool isRight;
+	int lives = 3;
+
+	bool godMode;
 
 private: 
 	b2Vec2 velocity;
