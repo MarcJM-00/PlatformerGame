@@ -57,7 +57,7 @@ public:
 	bool isRight;
 	int lives = 3;
 
-	bool godMode;
+	bool godMode = false;
 
 private: 
 	b2Vec2 velocity;
