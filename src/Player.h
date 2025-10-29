@@ -56,6 +56,7 @@ public:
 	bool isJumping = false; // Flag to check if the player is currently jumping
 	bool isRight;
 	int lives = 3;
+	bool isdead = false;
 
 	bool godMode = false;
 

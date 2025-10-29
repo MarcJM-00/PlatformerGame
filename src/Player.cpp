@@ -27,24 +27,23 @@ bool Player::Awake() {
 
 bool Player::Start() {
 
-	// load
+	// Load Animation
 	std::unordered_map<int, std::string> aliases = { {0,"idle"},{11,"move"},{22,"jump"} };
 	anims.LoadFromTSX("Assets/Textures/PLayer2_Spritesheet.tsx", aliases);
 	anims.SetCurrent("idle");
 
-	//L03: TODO 2: Initialize Player parameters
+	//Initialize Player Texture parameters
 	texture = Engine::GetInstance().textures->Load("Assets/Textures/player2_spritesheet.png");
 
-	// L08 TODO 5: Add physics to the player - initialize physics body
-	//Engine::GetInstance().textures->GetSize(texture, texW, texH);
+	// Add physics to the player - initialize physics body
 	texW = 32;
 	texH = 32;
 	pbody = Engine::GetInstance().physics->CreateCircle((int)position.getX(), (int)position.getY(), texW / 2, bodyType::DYNAMIC);
 
-	// L08 TODO 6: Assign player class (using "this") to the listener of the pbody. This makes the Physics module to call the OnCollision method
+	// Assign player class (using "this") to the listener of the pbody. This makes the Physics module to call the OnCollision method
 	pbody->listener = this;
 
-	// L08 TODO 7: Assign collider type
+	// Assign collider type
 	pbody->ctype = ColliderType::PLAYER;
 
 	//initialize audio effect
@@ -55,21 +54,25 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
+	if (!isdead)
+	{
+		if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
+			godMode = !godMode;
+		}
 
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
-		godMode = !godMode;
+		GetPhysicsValues();
+
+		Move();
+		Jump();
+		Dash();
+
+		ApplyPhysics();
+
+		Side();
+		Died();
 	}
 
-	GetPhysicsValues();
-	Move();
-	Jump();
-	ApplyPhysics();
 	Draw(dt);
-	Side();
-
-	Died();
-	Dash();
-
 	return true;
 }
 
@@ -80,7 +83,7 @@ void Player::GetPhysicsValues() {
 }
 
 void Player::Move() {
-	
+
 	//Fly con el GodMode activo
 	if (godMode) {
 		velocity = { 0, 0 }; // Reset physics velocity
