@@ -144,7 +144,7 @@ bool Map::Load(std::string path, std::string fileName)
             tileSet->tileHeight = tilesetNode.attribute("tileheight").as_int();
             tileSet->spacing = tilesetNode.attribute("spacing").as_int();
             tileSet->margin = tilesetNode.attribute("margin").as_int();
-            tileSet->tileCount = tilesetNode.attribute("tilecount").as_int();
+            tileSet->tileCount = tilesetNode.attribute("tilecount").as_int(); 
             tileSet->columns = tilesetNode.attribute("columns").as_int();
 
 			//Load the tileset image
