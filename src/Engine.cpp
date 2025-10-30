@@ -131,6 +131,12 @@ bool Engine::Update() {
     bool ret = true;
     PrepareUpdate();
 
+    if (input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
+    {
+        if (targetFrameRate == 60) { targetFrameRate = 30; }
+        else { targetFrameRate = 60; }
+    }
+
     if (input->GetWindowEvent(WE_QUIT) == true)
         ret = false;
 
