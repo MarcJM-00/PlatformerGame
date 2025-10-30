@@ -51,6 +51,12 @@ bool Map::Update(float dt)
         helpMenu = !helpMenu;
     }
 
+    if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_H) == KEY_DOWN) //Toggle Help Menu
+    {
+        LOG("Help menu - Active");
+        helpMenu = !helpMenu;
+    }
+
     if (mapLoaded) {
 >>>>>>> Stashed changes
 
@@ -108,11 +114,36 @@ bool Map::Update(float dt)
         ShowHelpMenu();
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 
 	return ret;
+}
+
+void Map::ShowHelpMenu()
+{
+    SDL_Rect _camera = Engine::GetInstance().render->camera;
+    SDL_Rect background = { -_camera.x,_camera.y, _camera.w,_camera.h / 15 };
+    float difere = _camera.w / 8;
+
+    //Background Rectangle
+    Engine::GetInstance().render->DrawRectangle(background, 67, 0, 0, 125);
+
+    //Set Text Color
+    SDL_SetRenderDrawColor(Engine::GetInstance().render->renderer, 255, 255, 255, 255);
+
+    //Text
+    SDL_RenderDebugText(Engine::GetInstance().render->renderer, difere / 8, _camera.h / 30, "A & D to move");
+    SDL_RenderDebugText(Engine::GetInstance().render->renderer, difere, _camera.h / 30, "Space to jump");
+    SDL_RenderDebugText(Engine::GetInstance().render->renderer, difere * 2, _camera.h / 30, "LShift to dash");
+    SDL_RenderDebugText(Engine::GetInstance().render->renderer, difere * 4, _camera.h / 30, "F9 to show Hitboxes");
+    SDL_RenderDebugText(Engine::GetInstance().render->renderer, _camera.w - difere * 3, _camera.h / 30, "F10 toggle GodMode");
+    SDL_RenderDebugText(Engine::GetInstance().render->renderer, _camera.w - difere * 2, _camera.h / 30, "F11 toggle 30Fps");
+    SDL_RenderDebugText(Engine::GetInstance().render->renderer, _camera.w - difere, _camera.h / 30, "H to show HelpMenu");
 }
 
 void Map::ShowHelpMenu()
