@@ -88,13 +88,13 @@ void Map::ShowHelpMenu()
 	SDL_Rect background = { -_camera.x,_camera.y, _camera.w,_camera.h / 15 };
 	float difere = _camera.w / 8;
 
-	//Background Rectangle
+	//Rectangulo donde se genera todo el texto
 	Engine::GetInstance().render->DrawRectangle(background, 67, 0, 0, 125);
 
-	//Set Text Color
+	//Color y opacidad del rectangulo
 	SDL_SetRenderDrawColor(Engine::GetInstance().render->renderer, 255, 255, 255, 255);
 
-	//Text
+	//Texto del menu de ayuda
 	SDL_RenderDebugText(Engine::GetInstance().render->renderer, difere / 8, _camera.h / 30, "A & D to move");
 	SDL_RenderDebugText(Engine::GetInstance().render->renderer, difere, _camera.h / 30, "Space to jump");
 	SDL_RenderDebugText(Engine::GetInstance().render->renderer, difere * 2, _camera.h / 30, "LShift to dash");
