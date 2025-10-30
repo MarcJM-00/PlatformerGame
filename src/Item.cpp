@@ -42,7 +42,7 @@ bool Item::Update(float dt)
 {
 	if (!active) return true;
 
-	// L08 TODO 4: Add a physics to an item - update the position of the object from the physics.  
+	// Add a physics to an item - update the position of the object from the physics.  
 	int x, y;
 	pbody->GetPosition(x, y);
 	position.setX((float)x);

@@ -165,9 +165,10 @@ void Player::Draw(float dt) {
 }
 
 //Aqui añadimos todas las funciones extras del jugador
+//Muere vuele posicion de inicio
 void Player::Died() {
 	if (position.getY() > 700) {
-		pbody->SetPosition(96, 600);
+		pbody->SetPosition(96, 200);
 	}
 }
 

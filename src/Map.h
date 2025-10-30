@@ -2,6 +2,8 @@
 
 #include "Module.h"
 #include <list>
+#include <box2d/box2d.h>
+
 #include <vector>
 
 // L09: TODO 5: Add attributes to the property structure
@@ -56,6 +58,17 @@ struct MapLayer
     }
 };
 
+struct ObjectGroup
+{
+    struct Object
+    {
+        float id, x, y, width, height;
+        std::vector<b2Vec2> points;
+    };
+    std::list<Object*> objects;
+    Properties properties;
+};
+
 // L06: TODO 2: Create a struct to hold information for a TileSet
 // Ignore Terrain Types and Tile Types for now, but we want the image!
 
@@ -95,7 +108,8 @@ struct MapData
 	int tileHeight;
     std::list<TileSet*> tilesets;
 
-    // L07: TODO 2: Add the info to the MapLayer Struct
+    // Add the info to the MapLayer Struct
+    std::list<ObjectGroup*> objectGroups;
     std::list<MapLayer*> layers;
 };
 

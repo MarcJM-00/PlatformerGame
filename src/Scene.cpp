@@ -33,8 +33,8 @@ bool Scene::Awake()
 	//Con esto creamos los objetos que se pueden coger
 	std::shared_ptr<Item> item = std::dynamic_pointer_cast<Item>(Engine::GetInstance().entityManager->CreateEntity(EntityType::ITEM));
 	std::shared_ptr<Item> item2 = std::dynamic_pointer_cast<Item>(Engine::GetInstance().entityManager->CreateEntity(EntityType::ITEM));
-	item->position = Vector2D(200, 672);
-	item2->position = Vector2D(300, 672);
+	item->position = Vector2D(200, 200);
+	item2->position = Vector2D(300, 200);
 
 	return ret;
 }
