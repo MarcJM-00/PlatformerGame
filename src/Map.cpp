@@ -78,6 +78,30 @@ bool Map::Update(float dt)
 			}
 		}
 	}
+=======
+                        //Check if the gid is different from 0 - some tiles are empty
+                        if (gid != 0) {
+                            //L09: TODO 3: Obtain the tile set using GetTilesetFromTileId
+                            TileSet* tileSet = GetTilesetFromTileId(gid);
+                            if (tileSet != nullptr) {
+                                //Get the Rect from the tileSetTexture;
+                                SDL_Rect tileRect = tileSet->GetRect(gid);
+                                //Get the screen coordinates from the tile coordinates
+                                Vector2D mapCoord = MapToWorld(i, j);
+                                //Draw the texture
+                                Engine::GetInstance().render->DrawTexture(tileSet->texture, (int)mapCoord.getX(), (int)mapCoord.getY(), &tileRect);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (helpMenu)
+    {
+        ShowHelpMenu();
+    }
+>>>>>>> Stashed changes
 
 	return ret;
 }
