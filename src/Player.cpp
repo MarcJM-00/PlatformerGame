@@ -120,7 +120,6 @@ void Player::GodModeMove(float dt)
 	//Fly con el GodMode activo
 	b2Vec2 godVelocity = { 0.0f, 0.0f };
 	float godSpeed = speed * 2.0f;
-	Engine::GetInstance().physics->SetBodyType(pbody, bodyType::DYNAMIC);
 	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		godVelocity.x = -godSpeed;
 	}

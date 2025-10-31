@@ -47,7 +47,9 @@ bool Scene::Start()
 
 	//L06 TODO 3: Call the function to load the map. 
 	Engine::GetInstance().map->Load("Assets/Maps/", "Nivel.tmx");
-	
+	/*PhysBody* leftWall = Engine::GetInstance().physics->CreateRectangle(-10, Engine::GetInstance().window->window_height / 2, wallThickness,
+		Engine::GetInstance().window->window_height, bodyType::STATIC);*/
+
 	return true;
 }
 

@@ -32,6 +32,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	int wallThickness = 20;
+
 private:
 
 	//L03: TODO 3b: Declare a Player attribute
