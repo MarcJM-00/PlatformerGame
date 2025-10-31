@@ -38,7 +38,12 @@ bool Map::Update(float dt)
 
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_H) == KEY_DOWN) //Toggle Help Menu
 	{
-		LOG("Help menu - Active");
+		if (!helpMenu) {
+			LOG("Help menu - Active");
+		}
+		else {
+			LOG("Help menu - Desactive");
+		}
 		helpMenu = !helpMenu;
 	}
 
@@ -85,8 +90,9 @@ bool Map::Update(float dt)
 void Map::ShowHelpMenu()
 {
 	SDL_Rect _camera = Engine::GetInstance().render->camera;
-	SDL_Rect background = { -_camera.x,_camera.y, _camera.w,_camera.h / 15 };
-	float difere = _camera.w / 8;
+	float helpPos_x = 5;
+	float helpPos_y = 10;
+	SDL_Rect background = { helpPos_x - 5,helpPos_y - 10, 255, 130 };
 
 	//Rectangulo donde se genera todo el texto
 	Engine::GetInstance().render->DrawRectangle(background, 67, 0, 0, 125);
@@ -95,13 +101,12 @@ void Map::ShowHelpMenu()
 	SDL_SetRenderDrawColor(Engine::GetInstance().render->renderer, 255, 255, 255, 255);
 
 	//Texto del menu de ayuda
-	SDL_RenderDebugText(Engine::GetInstance().render->renderer, difere / 8, _camera.h / 30, "A & D to move");
-	SDL_RenderDebugText(Engine::GetInstance().render->renderer, difere, _camera.h / 30, "Space to jump");
-	SDL_RenderDebugText(Engine::GetInstance().render->renderer, difere * 2, _camera.h / 30, "LShift to dash");
-	SDL_RenderDebugText(Engine::GetInstance().render->renderer, difere * 4, _camera.h / 30, "F9 to show Hitboxes");
-	SDL_RenderDebugText(Engine::GetInstance().render->renderer, _camera.w - difere * 3, _camera.h / 30, "F10 toggle GodMode");
-	SDL_RenderDebugText(Engine::GetInstance().render->renderer, _camera.w - difere * 2, _camera.h / 30, "F11 toggle 30Fps");
-	SDL_RenderDebugText(Engine::GetInstance().render->renderer, _camera.w - difere, _camera.h / 30, "H to show HelpMenu");
+	SDL_RenderDebugText(Engine::GetInstance().render->renderer, helpPos_x, helpPos_y, "- A & D to move right and left");
+	SDL_RenderDebugText(Engine::GetInstance().render->renderer, helpPos_x, helpPos_y + 20, "- Space to jump");
+	SDL_RenderDebugText(Engine::GetInstance().render->renderer, helpPos_x, helpPos_y + 40, "- LShift to dash");
+	SDL_RenderDebugText(Engine::GetInstance().render->renderer, helpPos_x, helpPos_y + 60, "- F9 to show Hitboxes");
+	SDL_RenderDebugText(Engine::GetInstance().render->renderer, helpPos_x, helpPos_y + 80, "- F10 toggle GodMode");
+	SDL_RenderDebugText(Engine::GetInstance().render->renderer, helpPos_x, helpPos_y + 100, "- F11 toggle 30Fps");
 }
 
 // L09: TODO 2: Implement function to the Tileset based on a tile id

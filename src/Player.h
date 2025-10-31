@@ -55,6 +55,10 @@ public:
 	float jumpForce = 2.5f; // The force to apply when jumping
 	bool isJumping = false; // Flag to check if the player is currently jumping
 	bool isRight;
+	float dashPower = 50.0f; // ¡Ajusta este valor! Es la "fuerza" del dash.
+	float dashCooldownTime = 1.0f; // 1 segundo de espera
+	float currentCooldown = 0.0f;
+
 	int lives = 3;
 	bool isdead = false;
 

@@ -57,6 +57,12 @@ bool Player::Update(float dt)
 	if (!isdead)
 	{
 		if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
+			if (!godMode) {
+				LOG("GodMode - Active");
+			}
+			else {
+				LOG("GodMode - Desactive");
+			}
 			godMode = !godMode;
 		}
 
@@ -174,6 +180,8 @@ void Player::Died() {
 
 void Player::Dash() {
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN) {
+		//b2Vec2 impulse = (dashPower * pbody->GetMass());
+		//pbody->ApplyLinearImpulse(impulse, body->GetWorldCenter(), true);
 		int x, y;
 		pbody->GetPosition(x, y);
 		if (isRight) pbody->SetPosition(x + 50, y);

@@ -186,8 +186,15 @@ bool Physics::PostUpdate()
 
     // Activate or deactivate debug mode
     if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+    {
+        if (!debug) {
+            LOG("Hitboxes - Active");
+        }
+        else {
+            LOG("Hitboxes - Desactive");
+        }
         debug = !debug;
-
+    }
     // Debug draw via Box2D 3.x callbacks
     if (debug)
     {
