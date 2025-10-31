@@ -108,13 +108,17 @@ PhysBody* Physics::CreateCircle(int x, int y, int radious, bodyType type)
     def.type = ToB2Type(type);
     def.position = { PIXEL_TO_METERS(x), PIXEL_TO_METERS(y) };
 
+    
+
     b2BodyId b = b2CreateBody(world, &def);
 
     b2Circle circle;
     circle.center = { 0.0f, 0.0f };
     circle.radius = PIXEL_TO_METERS(radious);
     b2ShapeDef sdef = b2DefaultShapeDef();
+
     sdef.density = 1.0f;
+
     sdef.enableContactEvents = true;
     sdef.enableSensorEvents = true;
 
@@ -123,6 +127,15 @@ PhysBody* Physics::CreateCircle(int x, int y, int radious, bodyType type)
     PhysBody* pbody = new PhysBody();
     pbody->body = b;
     b2Body_SetUserData(b, ToUserData(pbody));
+
+    if (type == bodyType::DYNAMIC && BodyToPhys(b)->isGhost == true)
+    {
+        def.isBullet = true;
+    }
+    else if (BodyToPhys(b)->isGhost == false) {
+        def.isBullet = false;
+    }
+
     return pbody;
 }
 
@@ -357,6 +370,10 @@ void Physics::ApplyLinearImpulseToCenter(PhysBody* p, float ix, float iy, bool w
     b2Body_ApplyLinearImpulseToCenter(p->body, imp, wake);
 }
 
+void Physics::SetBodyType(PhysBody* p, bodyType type) const
+{
+    b2Body_SetType(p->body, ToB2Type(type));
+}
 //
 //--------------- PhysBody --------------------
 //

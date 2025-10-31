@@ -59,20 +59,34 @@ bool Player::Update(float dt)
 		if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 			if (!godMode) {
 				LOG("GodMode - Active");
+				Engine::GetInstance().physics->SetBodyType(pbody, bodyType::KINEMATIC);
 			}
 			else {
 				LOG("GodMode - Desactive");
+				Engine::GetInstance().physics->SetBodyType(pbody, bodyType::DYNAMIC);
 			}
 			godMode = !godMode;
 		}
+		//pbody->isGhost = godMode;
 
-		GetPhysicsValues();
+		//Creamos el Cooldown para el dash
+		if (currentCooldown > 0)
+		{
+			currentCooldown -= (dt / 1000.0f);
+		}
 
-		Move();
-		Jump();
-		Dash();
-
-		ApplyPhysics();
+		if (godMode)
+		{
+			GodModeMove(dt);
+		}
+		else
+		{
+			GetPhysicsValues();
+			Move();
+			ApplyPhysics();
+			Jump();
+			Dash();
+		}
 
 		Side();
 		Died();
@@ -90,34 +104,6 @@ void Player::GetPhysicsValues() {
 
 void Player::Move() {
 
-	//Fly con el GodMode activo
-	if (godMode) {
-		velocity = { 0, 0 }; // Reset physics velocity
-
-		if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-			int x, y;
-			pbody->GetPosition(x, y);
-			pbody->SetPosition(x - (int)speed, y);
-		}
-		if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-			int x, y;
-			pbody->GetPosition(x, y);
-			pbody->SetPosition(x + (int)speed, y);
-		}
-		if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-			int x, y;
-			pbody->GetPosition(x, y);
-			pbody->SetPosition(x, y - (int)speed);
-		}
-		if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-			int x, y;
-			pbody->GetPosition(x, y);
-			pbody->SetPosition(x, y + (int)speed);
-		}
-		return;
-	}
-
-
 	// Move left/right
 	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		velocity.x = -speed;
@@ -127,6 +113,28 @@ void Player::Move() {
 		velocity.x = speed;
 		anims.SetCurrent("move");
 	}
+}
+
+void Player::GodModeMove(float dt)
+{
+	//Fly con el GodMode activo
+	b2Vec2 godVelocity = { 0.0f, 0.0f };
+	float godSpeed = speed * 2.0f;
+	Engine::GetInstance().physics->SetBodyType(pbody, bodyType::DYNAMIC);
+	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+		godVelocity.x = -godSpeed;
+	}
+	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+		godVelocity.x = godSpeed;
+	}
+	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+		godVelocity.y = -godSpeed; // Arriba es Y negativo en físicas
+	}
+	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
+		godVelocity.y = godSpeed; // Abajo es Y positivo en físicas
+	}
+
+	Engine::GetInstance().physics->SetLinearVelocity(pbody, godVelocity);
 }
 
 void Player::Side() {
@@ -179,16 +187,20 @@ void Player::Died() {
 }
 
 void Player::Dash() {
-	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN) {
-		//b2Vec2 impulse = (dashPower * pbody->GetMass());
-		//pbody->ApplyLinearImpulse(impulse, body->GetWorldCenter(), true);
-		int x, y;
-		pbody->GetPosition(x, y);
-		if (isRight) pbody->SetPosition(x + 50, y);
-		if (!isRight) pbody->SetPosition(x - 50, y);
+	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN && currentCooldown <= 0) {
+		float direction = isRight ? 1.0f : -1.0f;
+		float impulseX = direction * dashPower * b2Body_GetMass(pbody->body);
+
+		Engine::GetInstance().physics->ApplyLinearImpulseToCenter(pbody, impulseX, 0.0f, true);
+
+		currentCooldown = dashCooldownTime;
 	}
 }
 
+//void Physics::SetBodyType(PhysBody* p, bodyType type) const
+//{
+//	b2Body_SetType(p->body, ToB2Type(type));
+//}
 
 bool Player::CleanUp()
 {

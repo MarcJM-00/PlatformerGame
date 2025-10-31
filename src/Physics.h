@@ -38,7 +38,10 @@ enum class ColliderType {
 class PhysBody
 {
 public:
-    PhysBody() : listener(NULL), body(b2_nullBodyId), ctype(ColliderType::UNKNOWN) {}
+    PhysBody() : listener(NULL), body(b2_nullBodyId), ctype(ColliderType::UNKNOWN) 
+    {
+        isGhost = false;
+    }
     ~PhysBody() {}
 
     void  GetPosition(int& x, int& y) const;
@@ -51,6 +54,8 @@ public:
     b2BodyId body;              // id instead of pointer (v3.x)
     Entity* listener;
     ColliderType ctype;
+
+    bool isGhost;
 };
 
 // Module --------------------------------------
@@ -93,6 +98,7 @@ public:
 
     // --- Impulse helper (handy for jumps/dashes)
     void   ApplyLinearImpulseToCenter(PhysBody* p, float ix, float iy, bool wake = true) const;
+    void   SetBodyType(PhysBody* p, bodyType type) const;
 
 private:
     // helpers
