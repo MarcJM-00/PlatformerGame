@@ -125,9 +125,9 @@ private:
 	//Maximun frame duration in miliseconds.
 	int targetFrameRate = 60;
 
-	std::string gameTitle = "Platformer Game";
+	std::string gameTitle = "Cave adventure";
 
-	//L05 TODO 2: Declare a xml_document to load the config file
+	// Declare a xml_document to load the config file
 	pugi::xml_document configFile;
 
 };

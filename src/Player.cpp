@@ -184,7 +184,7 @@ void Player::Died() {
 		pbody->SetPosition(96, 200);
 	}
 }
-
+// Movimiento extra - dash, tiene tiempo de recarga
 void Player::Dash() {
 	if (Engine::GetInstance().input.get()->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN && currentCooldown <= 0) {
 		float direction = isRight ? 1.0f : -1.0f;
@@ -196,11 +196,6 @@ void Player::Dash() {
 	}
 }
 
-//void Physics::SetBodyType(PhysBody* p, bodyType type) const
-//{
-//	b2Body_SetType(p->body, ToB2Type(type));
-//}
-
 bool Player::CleanUp()
 {
 	LOG("Cleanup player");
@@ -208,7 +203,7 @@ bool Player::CleanUp()
 	return true;
 }
 
-// L08 TODO 6: Define OnCollision function for the player. 
+// Define OnCollision function for the player. 
 void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
